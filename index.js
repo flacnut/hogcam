@@ -1,6 +1,6 @@
 var cpp = require('child-process-promise');
 
-var STORAGE_DESTINATION = '/mnt/hhvideos',
+var STORAGE_DESTINATION = '/mnt/nas',
     DURATION = 10 * 60 * 1000,
     BITRATE = 2 * 1000 * 1000,
     DATE_SETTINGS = {
@@ -19,7 +19,7 @@ function captureVideo() {
     .replace(',', '_');
 
   var FILE = `video_${TIMESTAMP}.h264`,
-      COMMAND = `raspivid -o ${STORAGE_DESTINATION}/${FILE} -t ${DURATION - 10000} -n -vs -st -b ${BITRATE} -ex night`;
+      COMMAND = `raspivid -o ${STORAGE_DESTINATION}/${FILE} -t ${DURATION - 5000} -n -vs -st -b ${BITRATE} -ex night`;
 
   console.log('Executing: ' + COMMAND);
   return cpp

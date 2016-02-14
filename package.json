@@ -1,0 +1,23 @@
+{
+  "name": "hogcam",
+  "version": "0.0.1",
+  "description": "Simple scripts for recording our hedgehogs on raspberry pi",
+  "main": "index.js",
+  "dependencies": {
+    "child-process-promise": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flacnut/hogcam.git"
+  },
+  "author": "Adam Sheldon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flacnut/hogcam/issues"
+  },
+  "homepage": "https://github.com/flacnut/hogcam#readme"
+}
