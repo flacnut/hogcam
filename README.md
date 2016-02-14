@@ -52,6 +52,8 @@ pi@raspberrypi:~/hogcam $ pm2 start ~/hogcam/index.js --name="hogcam" --watch
  Use `pm2 show <id|name>` to get more details about an app
 ```
 
+I've enabled ```--watch``` here so I can edit ```index.js``` and refresh the service faster. You don't necessarily need to do this.
+
 This process is now configured to restart whenever it crashes or stops. Finally we need to save the PM2 state so that the process resumes on restart of the raspberry pi.
 ```bash
 pm2 save
