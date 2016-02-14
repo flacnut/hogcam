@@ -37,3 +37,24 @@ Then lets add PM2 to run on startup
 sudo pm2 startup ubuntu
 ```
 This will ask you to run a more specific command. Copy and paste this command.
+
+#### Auto-start Hogcam
+PM2 is now going to start when the pi boots up, so we can piggy-back by auto starting hogcam when PM2 starts:
+```bash
+pi@raspberrypi:~/hogcam $ pm2 start ~/hogcam/index.js --name="hogcam" --watch
+[PM2] Starting /home/pi/hogcam/index.js in fork_mode (1 instance)
+[PM2] Done.
+┌──────────┬────┬──────┬─────┬────────┬─────────┬────────┬─────────────┬──────────┐
+│ App name │ id │ mode │ pid │ status │ restart │ uptime │ memory      │ watching │
+├──────────┼────┼──────┼─────┼────────┼─────────┼────────┼─────────────┼──────────┤
+│ hogcam   │ 0  │ fork │ 836 │ online │ 0       │ 0s     │ 17.605 MB   │  enabled │
+└──────────┴────┴──────┴─────┴────────┴─────────┴────────┴─────────────┴──────────┘
+ Use `pm2 show <id|name>` to get more details about an app
+```
+
+I've enabled ```--watch``` here so I can edit ```index.js``` and refresh the service faster. You don't necessarily need to do this.
+
+This process is now configured to restart whenever it crashes or stops. Finally we need to save the PM2 state so that the process resumes on restart of the raspberry pi.
+```bash
+pm2 save
+```
