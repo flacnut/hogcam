@@ -16,12 +16,13 @@ var STORAGE_DESTINATION = '/mnt/nas',
       year: 'numeric'
     };
 
-var saveFile = false;
+var saveFile, motionDetected = false;
 
 // Setup the GPIO pins for motion detection
 gpio.setup(7, gpio.DIR_IN, gpio.EDGE_BOTH);
 gpio.on('change', (chanel, value) => {
   console.log(`[${new Date()}] Motion ${value ? 'detected.' : 'timed out.'}.`);
+  motionDetected = value;
   saveFile = saveFile || value;
 });
 
@@ -53,7 +54,7 @@ function captureSingleVideo() {
       COMMAND = `raspivid -o ${TEMP_STORAGE_DESTINATION}/${FILE} -t ${DURATION - 5000} -n -vs -st -b ${BITRATE} -ex night`;
 
   console.log(`[${new Date()}] Executing: ${COMMAND}`);
-  saveFile = false;
+  saveFile = motionDetected;
 
   return cpp
     .exec(COMMAND)
