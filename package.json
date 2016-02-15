@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "child-process-promise": "^1.1.0",
-    "rpi-gpio": "x"
+    "rpi-gpio": "x",
+    "shelljs": "^0.6.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -4,8 +4,8 @@ var gpio  = require('rpi-gpio');
 var shell = require('shelljs');
 
 var STORAGE_DESTINATION = '/mnt/nas',
-    TEMP_STORAGE_DESTINATION = './temp_vid/',
-    DURATION = 10 * 60 * 1000,
+    TEMP_STORAGE_DESTINATION = './temp_vid',
+    DURATION = 1 * 60 * 1000,
     BITRATE = 2 * 1000 * 1000,
     DATE_SETTINGS = {
       hour12: false,
@@ -16,13 +16,13 @@ var STORAGE_DESTINATION = '/mnt/nas',
       year: 'numeric'
     };
 
-var motionDetected = false;
+var saveFile = false;
 
 // Setup the GPIO pins for motion detection
 gpio.setup(7, gpio.DIR_IN, gpio.EDGE_BOTH);
 gpio.on('change', (chanel, value) => {
   console.log(`[${new Date()}] Motion ${value ? 'detected.' : 'timed out.'}.`);
-  motionDetected = value;
+  saveFile = saveFile || value;
 });
 
 // Find out how many ticks we are from the next 10 minute interval
@@ -57,9 +57,12 @@ function captureSingleVideo() {
         console.log(`Process err: ${result.stderr}`);
       }
 
-      if (motionDetected) {
+      if (saveFile) {
         copyFileToNas(FILE);
+        saveFile = false;
       }
+
+      shell.exec(`rm -f ${TEMP_STORAGE_DESTINATION}/${FILE}`);
     })
     .catch((error) => {
       console.log(`Javascript error: ${error}`);
@@ -86,7 +89,7 @@ function copyFileToNas(fileName) {
     }
 
     var start = Date.now();
-    shell.exec(`cp ${copyFrom} ${copyTo} && rm ${copyFrom}`, () => {
+    shell.exec(`cp ${copyFrom} ${copyTo}`, () => {
       var duration = (Date.now() - start) / 1000;
       console.log(`File ${fileName} copied to ${STORAGE_DESTINATION}, took ${duration} seconds (${stats.size / 1024 / duration} KB/s).`)
     });
