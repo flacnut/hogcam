@@ -4,7 +4,8 @@
   "description": "Simple scripts for recording our hedgehogs on raspberry pi",
   "main": "index.js",
   "dependencies": {
-    "child-process-promise": "^1.1.0"
+    "child-process-promise": "^1.1.0",
+    "rpi-gpio": "x"
   },
   "devDependencies": {},
   "scripts": {
